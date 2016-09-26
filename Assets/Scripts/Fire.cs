@@ -10,7 +10,7 @@ public class Fire : MonoBehaviour
 
         if(transform.localScale.magnitude < Mathf.Sqrt(3))
         {
-            transform.localScale += (transform.localScale * (Time.deltaTime / 2));
+            transform.localScale += (transform.localScale * (Time.deltaTime / 10));
         }
 	}
 }
