@@ -3,6 +3,7 @@ using System.Collections;
 
 public class Fire : MonoBehaviour
 {
+    [SerializeField] float killFloat = 0f;
     void Awake()
     {
         originalScale = transform.localScale.magnitude;
@@ -10,7 +11,7 @@ public class Fire : MonoBehaviour
 
 	void Update ()
     {
-        if (transform.localScale.magnitude < 0.1f)
+        if (transform.localScale.magnitude < killFloat)
             Destroy(gameObject);
 
         if(transform.localScale.magnitude < originalScale)
