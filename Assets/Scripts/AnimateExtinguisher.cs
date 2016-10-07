@@ -3,12 +3,12 @@ using System.Collections;
 
 public class AnimateExtinguisher : MonoBehaviour
 {
-    [SerializeField] Animator anim;
+    [SerializeField]Animator anim;
     SteamVR_TrackedController controller;
 
     void Start()
     {
-        controller = GetComponent<SteamVR_TrackedController>();
+        controller = transform.parent.GetComponent<SteamVR_TrackedController>();
     }
 
     void Update ()
