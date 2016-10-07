@@ -3,18 +3,23 @@ using System.Collections;
 
 public class FireExtinguisher : MonoBehaviour
 {
-    public Collider SprayNozzle;
-    public ParticleSystem SprayFoam;
-    [SerializeField] SteamVR_TrackedController leftController;
-    [SerializeField] SteamVR_TrackedController rightController;
+    Collider SprayNozzle;
+    ParticleSystem SprayFoam;
+    SteamVR_TrackedController leftController;
+    SteamVR_TrackedController rightController;
 
     SteamVR_TrackedObject trackedObject;
     SteamVR_Controller.Device device;
 
     void Start()
     {
-        SetSpray(false);
+        leftController  = GameObject.FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
+        rightController = GameObject.FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
         trackedObject = rightController.gameObject.GetComponent<SteamVR_TrackedObject>();
+        SprayNozzle = this.transform.GetComponentInChildren<Collider>();
+        SprayFoam = this.transform.GetComponentInChildren<ParticleSystem>();
+        
+        SetSpray(false);
     }
 
     void Update()
@@ -24,7 +29,7 @@ public class FireExtinguisher : MonoBehaviour
         if (leftController.triggerPressed)
         {
             SetSpray(true);
-            device.TriggerHapticPulse(500);
+            device.TriggerHapticPulse(1000);
         }
 
         else
