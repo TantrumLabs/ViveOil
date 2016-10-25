@@ -3,6 +3,7 @@ using System.Collections;
 
 public class MyTeleport : MonoBehaviour
 {
+    public bool teleportEnabled = true;
     [SerializeField] GameObject viveRig;
     [SerializeField] GameObject viveEye;
     [SerializeField] GameObject teleportReticle;
@@ -28,6 +29,9 @@ public class MyTeleport : MonoBehaviour
 
 	void FixedUpdate()
     {
+        if (!teleportEnabled)
+            return;
+
         if(leftControl.padPressed && !castingTeleport)
         {
             StartCoroutine(Teleport(leftControl));
@@ -41,6 +45,9 @@ public class MyTeleport : MonoBehaviour
 
     IEnumerator Teleport(SteamVR_TrackedController teleportingHand)
     {
+        LineRenderer line = teleportingHand.gameObject.GetComponent<LineRenderer>();
+        line.enabled = false;
+
         castingTeleport = true;
 
         Vector3 targetPos = Vector3.zero;
@@ -58,12 +65,16 @@ public class MyTeleport : MonoBehaviour
                     if (hit.collider.gameObject.CompareTag("TeleportTarget"))
                     {
                         targetPos = hit.point;
+                        line.SetPosition(0, teleportingHand.gameObject.transform.position);
+                        line.SetPosition(1, hit.point);
+                        line.enabled = true;
                         //Debug.DrawLine(teleportingHand.gameObject.transform.position, hit.point, Color.red);
                         havePos = true;
                     }
                     else
                     {
                         havePos = false;
+                        line.enabled = false;
                     }
                 }
 
@@ -82,10 +93,12 @@ public class MyTeleport : MonoBehaviour
             yield return null;
         }
 
+        Vector3 adjust = new Vector3(viveEye.transform.localPosition.x, 0, viveEye.transform.localPosition.z);
         if (havePos)
-            viveRig.transform.position = targetPos;
+            viveRig.transform.position = targetPos - adjust;
 
         teleportReticle.SetActive(false);
         castingTeleport = false;
+        line.enabled = false;
     }
 }
