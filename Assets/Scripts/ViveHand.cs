@@ -5,9 +5,9 @@ public class ViveHand : MonoBehaviour
 {
     [SerializeField] bool hapticOnStay;
 
-    IInteractableObject selectedObject;
+    [SerializeField]
+    IInteractableObject selectedObject = null;
     GameObject viveControllerModel;
-    GameObject heldObject;
     SteamVR_Controller.Device device;
     SteamVR_TrackedObject trackedObject;
     SteamVR_TrackedController trackedHand;
@@ -17,14 +17,13 @@ public class ViveHand : MonoBehaviour
     {
         trackedObject = GetComponent<SteamVR_TrackedObject>();
         trackedHand = GetComponent<SteamVR_TrackedController>();
-	}
+        device = SteamVR_Controller.Input((int)trackedObject.index);
+    }
 	
     void Update()
     {
         if (selectedObject == null)
             return;
-
-
 
         if (trackedHand.triggerPressed && !trigger && selectedObject != null)
         {
@@ -64,7 +63,7 @@ public class ViveHand : MonoBehaviour
 
     void HapticPulse()
     {
-        device = SteamVR_Controller.Input((int)trackedObject.index);
+        //device = SteamVR_Controller.Input((int)trackedObject.index);
         device.TriggerHapticPulse(500); // 
     }
 

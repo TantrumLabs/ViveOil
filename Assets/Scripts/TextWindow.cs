@@ -15,22 +15,24 @@ public class TextWindow : MonoBehaviour
         textWindow = GetComponent<Image>();
     }
 
-    [ContextMenu("Test")]
-    public void Tester()
-    {
-        PushText("This is a test of the text crawl system. ksbfkshbfkjsbfgkjbskfgjbskjfgbskhjgb");
-    }
+    //[ContextMenu("Test")]
+    //public void Tester()
+    //{
+    //    PushText("This is a test of the text crawl system. ksbfkshbfkjsbfgkjbskfgjbskjfgbskhjgb");
+    //}
 
     public void PushText(string s)
     {
         textWindow.enabled = true;
         textValue.enabled = true;
-        anim.Play("TextWindowOpen");
+        anim.Play();
         StartCoroutine(FillText(s));
     }
        
     IEnumerator FillText(string s)
     {
+        FindObjectOfType<MyTeleport>().teleportEnabled = false;
+
         int size = s.Length;
         int i = 0;
 
@@ -44,13 +46,15 @@ public class TextWindow : MonoBehaviour
         }
 
         float time = 0;
-        while(time <= 5)
+        while(time <= 2f)
         {
             time += Time.deltaTime;
             yield return null;
         }
         textWindow.enabled = false;
         textValue.enabled = false;
+
+        FindObjectOfType<MyTeleport>().teleportEnabled = true;
 
     }                   
 }
