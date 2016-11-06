@@ -52,6 +52,7 @@ public class ResetButton : MonoBehaviour, IInteractableObject
 
     public void Interact()
     {
+        PickUpManager.itemInUse = false;
         SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 

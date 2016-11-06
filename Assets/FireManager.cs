@@ -10,8 +10,13 @@ public class FireManager : MonoBehaviour
     bool inProgress = true;
     [SerializeField] GameObject camrig;
     [SerializeField] List<GameObject> winButtons;
-	// Update is called once per frame
-	void Update ()
+
+
+    [SerializeField] string loseMessage;
+    [SerializeField] string winMessage;
+
+    // Update is called once per frame
+    void Update ()
     {
         CheckForWin();
 	}
@@ -38,7 +43,7 @@ public class FireManager : MonoBehaviour
     void Win()
     {
         inProgress = false;
-        text.PushText("Looks like the fire is out.\nGood work, but keep your eye out for any more trouble." );
+        text.PushText(winMessage);
         foreach(GameObject g in winButtons)
         {
             g.SetActive(true);
@@ -49,7 +54,7 @@ public class FireManager : MonoBehaviour
     {
         camrig.transform.position = resetPos; // Hall way just before fire room
         ResetFires();
-        text.PushText("That was the wrong extinguisher to deal with an Electrical fire. Let's try again.");
+        text.PushText(loseMessage);
     }
 
     public void ResetFires()
