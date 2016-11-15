@@ -1,16 +1,65 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+enum ExtinguisherType
+{
+    CO2,
+    POWDER,
+    FOAM,
+    WATER
+}
+
 public class ExtinguisherSpray : MonoBehaviour
 {
+    [SerializeField] ExtinguisherType type;
+
     void OnTriggerStay(Collider other)
     {
-        if(other.tag == "Extinguishable")
-        {
-            other.gameObject.transform.localScale -=
-            ((other.gameObject.transform.localScale * Time.deltaTime) * (CorrectExtinguisher ? 1 : -1));
-        }
-    }
+        Fire F = other.gameObject.GetComponent<Fire>();
 
-    public bool CorrectExtinguisher;
+        if(F != null)
+        {
+            #region Fire check
+            switch (F.fireType)
+            {
+                case FireType.WOOD:
+                    other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
+                    break;
+
+                case FireType.ELECTRICAL:
+                    if(type == ExtinguisherType.FOAM || type == ExtinguisherType.WATER)
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -0.8f);
+                    else
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
+                    break;
+
+                case FireType.FLAMMABLELIQUID:
+                    if (type == ExtinguisherType.WATER)
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -1);
+                    else
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
+                    break;
+
+                case FireType.GASEOUS:
+                    if (type == ExtinguisherType.FOAM || type == ExtinguisherType.WATER)
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -1);
+                    else
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
+                    break;
+
+                case FireType.METAL:
+                    if (type == ExtinguisherType.FOAM || type == ExtinguisherType.WATER)
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -1f);
+                    else
+                        other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
+                    break;
+
+                default:
+                    break;
+
+            }
+            #endregion
+        }
+
+    }
 }
