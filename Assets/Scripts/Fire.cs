@@ -1,10 +1,20 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+public enum FireType
+{
+    WOOD,
+    ELECTRICAL,
+    FLAMMABLELIQUID,
+    GASEOUS,
+    METAL
+}
+
 public class Fire : MonoBehaviour
 {
     private float originalScale;
     FireManager fm;
+    public FireType fireType;
     [SerializeField] float killFloat = 0f;
     public bool lit = true;
     bool toBig = false;
@@ -12,7 +22,7 @@ public class Fire : MonoBehaviour
     void Awake()
     {
         originalScale = transform.localScale.magnitude;
-        fm = GameObject.FindObjectOfType<FireManager>();
+        fm = transform.parent.GetComponent<FireManager>();
     }
 
 	void Update ()
