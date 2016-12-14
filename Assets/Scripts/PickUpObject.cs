@@ -61,6 +61,7 @@ public class PickUpObject : MonoBehaviour, IInteractableObject
     {
         if(inUse)   // Put Down
         {
+            PickUpManager.itemInUse = false;
             model.SetActive(true);
             inUse = false;
             foreach(Transform child in controlManager.left.transform)
@@ -85,6 +86,10 @@ public class PickUpObject : MonoBehaviour, IInteractableObject
         {
             if (isUsable)
             {
+                if (PickUpManager.itemInUse)
+                    return;
+
+                PickUpManager.itemInUse = true;
                 model.SetActive(false);
 
                 GameObject gl =  Instantiate(lefthandSpawnObject);
@@ -107,13 +112,8 @@ public class PickUpObject : MonoBehaviour, IInteractableObject
         }
     }
 
-    void PickUp()
+    public void PutBack()
     {
-
-    }
-
-    void PutBack()
-    {
-
+        model.SetActive(true);
     }
 }

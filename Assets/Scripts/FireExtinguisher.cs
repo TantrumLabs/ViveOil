@@ -3,8 +3,11 @@ using System.Collections;
 
 public class FireExtinguisher : MonoBehaviour
 {
+    AudioSource audio;
+    bool playAudio = false;
     Collider SprayNozzle;
     ParticleSystem SprayFoam;
+    EllipsoidParticleEmitter steamParticleSystem;
     SteamVR_TrackedController leftController;
     SteamVR_TrackedController rightController;
 
@@ -13,6 +16,7 @@ public class FireExtinguisher : MonoBehaviour
 
     void Start()
     {
+        audio = gameObject.GetComponent<AudioSource>();
         leftController  = GameObject.FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
         rightController = GameObject.FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
         trackedObject = rightController.gameObject.GetComponent<SteamVR_TrackedObject>();
@@ -36,6 +40,12 @@ public class FireExtinguisher : MonoBehaviour
         {
             SetSpray(false);
         }
+
+        if (playAudio && !audio.isPlaying)
+            audio.Play();
+        
+        if (playAudio == false)
+            audio.Stop();
     }
 
     public void SetSpray(bool active)
@@ -46,9 +56,11 @@ public class FireExtinguisher : MonoBehaviour
         {
             case true:
                 SprayFoam.Play();
+                playAudio = true;
                 break;
             case false:
                 SprayFoam.Stop();
+                playAudio = false;
                 break;
         }
     }
