@@ -72,6 +72,8 @@ using System.Collections.Generic;
 
 public class FireManager : MonoBehaviour
 {
+    private bool m_InProgress = true;
+
     [SerializeField] private GameObject m_CameraRig;
     [SerializeField] private Vector3 m_ResetPos;
     [SerializeField] private TextWindow m_TextWindow;
@@ -80,32 +82,25 @@ public class FireManager : MonoBehaviour
 
     [SerializeField] private string m_LoseMessage;
     [SerializeField] private string m_WinMessage;
-
-    private bool m_InProgress = true;
-
-    // Update is called once per frame
+    
     void Update()
     {
-        CheckForWin();
+        if(m_InProgress)
+            CheckForWin();
     }
 
-    void CheckForWin()
+    private int CheckForWin()
     {
-        bool firesStillActive = false;
-
         foreach (Fire f in m_Fires)
         {
             if (f.m_IsLit)
             {
-                firesStillActive = true;
+                return 1;
             }
         }
-
-        if (!firesStillActive)  // if no fires are lit
-        {
-            if (m_InProgress)
-                Win();
-        }
+        
+        Win();
+        return 0;
     }
 
     void Win()
@@ -120,13 +115,14 @@ public class FireManager : MonoBehaviour
 
     public void Lose()
     {
-        m_CameraRig.transform.position = m_ResetPos; // Hall way just before fire room
+        m_CameraRig.transform.position = m_ResetPos;
         ResetFires();
         m_TextWindow.PushText(m_LoseMessage);
     }
 
     public void ResetFires()
     {
+        m_InProgress = true;
         foreach (Fire f in m_Fires)
         {
             f.ResetFire();
