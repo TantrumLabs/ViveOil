@@ -115,6 +115,7 @@ public class Fire : MonoBehaviour
         if (m_CurrentScale < m_MinSize) // If the fire is smaller than the alloted size
         {                               //
             m_IsLit = false;                // then it is no longer lit
+            gameObject.SetActive(false);
         }
 	}
 
