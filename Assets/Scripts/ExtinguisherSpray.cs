@@ -64,9 +64,4 @@ public class ExtinguisherSpray : MonoBehaviour
             }
         }
     }
-
-    IEnumerator GrowDelay()
-    {
-        yield return new WaitForSeconds(1);
-    }
 }
