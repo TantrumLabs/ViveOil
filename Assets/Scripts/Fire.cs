@@ -99,28 +99,43 @@ public class Fire : MonoBehaviour
     /// </summary>
     public eFireType m_FireType;
 
+    /// <summary>
+    /// Called when the application is started up
+    /// </summary>
     void Awake()
     {
-        m_OriginalScale = m_CurrentScale;
+        m_OriginalScale = m_CurrentScale;   // Sets the original size, to the current size
     }
 
+    /// <summary>
+    /// Called once per frame
+    /// </summary>
 	void Update ()
     {
-        if (m_CurrentScale < m_MinSize)
-        {
-            m_IsLit = false;
-        }
-
-        if(m_CurrentScale < m_OriginalScale && m_IsLit)
-        {
-            transform.localScale += Vector3.one * (Time.deltaTime / 10);
+        if (m_CurrentScale < m_MinSize) // If the fire is smaller than the alloted size
+        {                               //
+            m_IsLit = false;                // then it is no longer lit
         }
 	}
 
+    /// <summary>
+    /// Increases the size of the fire
+    /// </summary>
+    /// <param name="aRate">The rate at which the fire would grow per-second</param>
+    /// <returns>Returns 0 to signal successful completion</returns>
+    public int GrowBy(float aRate)
+    {
+        transform.localScale += Vector3.one * (Time.deltaTime * aRate); // Increase the size over time
+        return 0;                                                       // Return 0 to show completion
+    }
+
+    /// <summary>
+    /// Resets the fire to its original state
+    /// </summary>
     public void ResetFire()
     {
-        gameObject.transform.localScale = Vector3.one * m_OriginalScale;
-        m_IsLit = true;
-        gameObject.SetActive(true);
+        m_IsLit = true;                                                 // Relight the fire
+        gameObject.SetActive(true);                                     // Turn its object back on
+        gameObject.transform.localScale = Vector3.one * m_OriginalScale;// Set it back to its original size
     }
 }
