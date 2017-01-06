@@ -20,7 +20,7 @@ public class ExtinguisherSpray : MonoBehaviour
         if(F != null)
         {
             #region Fire check
-            switch (F.fireType)
+            switch (F.m_FireType)
             {
                 case FireType.WOOD:
                     other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);

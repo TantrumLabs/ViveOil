@@ -27,7 +27,7 @@ public class FireManager : MonoBehaviour
 
         foreach (Fire f in fire)
         {
-            if (f.lit)
+            if (f.m_IsLit)
             {
                 firesStillActive = true;
             }
