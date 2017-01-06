@@ -82,12 +82,12 @@ public class Fire : MonoBehaviour
     /// <summary>
     /// The smallest a fire can be without going out
     /// </summary>
-    [SerializeField] private float m_MinSize = 0f;
+    public float m_MinSize = 0f;
 
     /// <summary>
     /// The largest a fire can be without loosing
     /// </summary>
-    [SerializeField] private float m_MaxSize = 0f;
+    public float m_MaxSize = 0f;
 
     /// <summary>
     /// Is the fire currently lit
@@ -115,9 +115,13 @@ public class Fire : MonoBehaviour
         if (m_CurrentScale < m_MinSize) // If the fire is smaller than the alloted size
         {                               //
             m_IsLit = false;                // then it is no longer lit
-            gameObject.SetActive(false);
         }
-	}
+
+        else if (m_CurrentScale < m_MaxSize)    // If the fire is larger than the alloted size
+        {                                       //
+            GrowBy(0.1f);                           // then grow
+        }
+    }
 
     /// <summary>
     /// Increases the size of the fire
