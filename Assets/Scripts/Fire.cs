@@ -57,7 +57,7 @@ public class Fire : MonoBehaviour
 using UnityEngine;
 using System.Collections;
 
-public enum FireType
+public enum eFireType
 {
     WOOD,
     ELECTRICAL,
@@ -68,17 +68,36 @@ public enum FireType
 
 public class Fire : MonoBehaviour
 {
+    /// <summary>
+    /// The original size of the fire
+    /// </summary>
     private float m_OriginalScale;
 
+    /// <summary>
+    /// The current size of the fire
+    /// </summary>
     private float m_CurrentScale
     { get { return transform.localScale.magnitude; } }
 
+    /// <summary>
+    /// The smallest a fire can be without going out
+    /// </summary>
     [SerializeField] private float m_MinSize = 0f;
+
+    /// <summary>
+    /// The largest a fire can be without loosing
+    /// </summary>
     [SerializeField] private float m_MaxSize = 0f;
 
+    /// <summary>
+    /// Is the fire currently lit
+    /// </summary>
     public bool m_IsLit = true;
 
-    public FireType m_FireType;
+    /// <summary>
+    /// The type of fire (wood, gas, etc) used for extinguishing
+    /// </summary>
+    public eFireType m_FireType;
 
     void Awake()
     {

@@ -22,32 +22,32 @@ public class ExtinguisherSpray : MonoBehaviour
             #region Fire check
             switch (F.m_FireType)
             {
-                case FireType.WOOD:
+                case eFireType.WOOD:
                     other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
                     break;
 
-                case FireType.ELECTRICAL:
+                case eFireType.ELECTRICAL:
                     if(type == ExtinguisherType.FOAM || type == ExtinguisherType.WATER)
                         other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -0.8f);
                     else
                         other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
                     break;
 
-                case FireType.FLAMMABLELIQUID:
+                case eFireType.FLAMMABLELIQUID:
                     if (type == ExtinguisherType.WATER)
                         other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -1);
                     else
                         other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
                     break;
 
-                case FireType.GASEOUS:
+                case eFireType.GASEOUS:
                     if (type == ExtinguisherType.FOAM || type == ExtinguisherType.WATER)
                         other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -1);
                     else
                         other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * 0.8f);
                     break;
 
-                case FireType.METAL:
+                case eFireType.METAL:
                     if (type == ExtinguisherType.FOAM || type == ExtinguisherType.WATER)
                         other.gameObject.transform.localScale -= ((other.gameObject.transform.localScale * Time.deltaTime) * -1f);
                     else
