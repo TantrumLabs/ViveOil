@@ -81,7 +81,16 @@ public class FireManager : MonoBehaviour
 
     [SerializeField] private string m_LoseMessage;
     [SerializeField] private string m_WinMessage;
-    
+
+    void Awake()
+    {
+        Fire[] fireChildren = GetComponentsInChildren<Fire>();
+        foreach (Fire f in fireChildren)
+        {
+            m_Fires.Add(f);
+        }
+    }
+
     void Update()
     {
         if(m_InProgress)
