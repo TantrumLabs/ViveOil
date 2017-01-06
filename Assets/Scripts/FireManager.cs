@@ -67,7 +67,6 @@ public class FireManager : MonoBehaviour
 }*/
 
 using UnityEngine;
-using System.Collections;
 using System.Collections.Generic;
 
 public class FireManager : MonoBehaviour
@@ -103,7 +102,7 @@ public class FireManager : MonoBehaviour
         return 0;
     }
 
-    void Win()
+    private void Win()
     {
         m_InProgress = false;
         m_TextWindow.PushText(m_WinMessage);
