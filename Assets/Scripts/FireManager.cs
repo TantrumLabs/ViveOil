@@ -103,7 +103,7 @@ public class FireManager : MonoBehaviour
         {
             if (f.m_IsLit)
             {
-                if(f.transform.localScale.magnitude > f.m_MaxSize * 1.5f)
+                if(f.transform.localScale.magnitude > f.m_MaxSize * 2f)
                 {
                     Lose();
                 }
