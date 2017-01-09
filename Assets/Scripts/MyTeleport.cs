@@ -11,6 +11,9 @@ public class MyTeleport : MonoBehaviour
     SteamVR_TrackedController leftControl;
     SteamVR_TrackedController rightControl;
 
+    [SerializeField] GameObject rightPointer;
+    [SerializeField] GameObject leftPointer;
+
     Vector3 rayCastPos = new Vector3(0,0,0);
 
     bool castingTeleport = false;
@@ -25,7 +28,6 @@ public class MyTeleport : MonoBehaviour
         leftControl  = GameObject.FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
         rightControl = GameObject.FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
     }
-	
 
 	void FixedUpdate()
     {
@@ -53,19 +55,29 @@ public class MyTeleport : MonoBehaviour
         Vector3 targetPos = Vector3.zero;
         bool havePos = false;
 
+        GameObject hand;
+        if (teleportingHand == rightControl)
+        {
+            hand = rightPointer;
+        }
+        else
+        {
+            hand = leftPointer;
+        }
+
         while (teleportingHand.padPressed)
         {
             RaycastHit hit;
             //Ray ray = new Ray(teleportingHand.gameObject.transform.position, teleportingHand.gameObject.transform.forward, 100);
 
-            if (Physics.Raycast(teleportingHand.gameObject.transform.position, teleportingHand.gameObject.transform.forward, out hit, 1000))
+            if (Physics.Raycast(hand.gameObject.transform.position, -hand.transform.up, out hit, 5))
             {
                 if (hit.collider != null)
                 {
                     if (hit.collider.gameObject.CompareTag("TeleportTarget"))
                     {
                         targetPos = hit.point;
-                        line.SetPosition(0, teleportingHand.gameObject.transform.position);
+                        line.SetPosition(0, hand.gameObject.transform.position);
                         line.SetPosition(1, hit.point);
                         line.enabled = true;
                         //Debug.DrawLine(teleportingHand.gameObject.transform.position, hit.point, Color.red);
@@ -74,7 +86,7 @@ public class MyTeleport : MonoBehaviour
                     else
                     {
                         havePos = false;
-                        line.enabled = false;
+                        line.enabled = havePos;
                     }
                 }
 
