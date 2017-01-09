@@ -117,10 +117,10 @@ public class Fire : MonoBehaviour
             m_IsLit = false;                // then it is no longer lit
         }
 
-        else if (m_CurrentScale < m_MaxSize)    // If the fire is larger than the alloted size
-        {                                       //
-            GrowBy(0.1f);                           // then grow
-        }
+        //else if (m_CurrentScale < m_MaxSize)    // If the fire is larger than the alloted size
+        //{                                       //
+        //    GrowBy(0.1f);                           // then grow
+        //}
     }
 
     /// <summary>
