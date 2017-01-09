@@ -36,7 +36,6 @@ public class FireExtinguisher : MonoBehaviour
         {
             SetSpray(true);
             device.TriggerHapticPulse(1000);
-            m_CurrentSpray -= Time.deltaTime;
         }
 
         else
@@ -60,6 +59,7 @@ public class FireExtinguisher : MonoBehaviour
             case true:
                 SprayFoam.Play();
                 playAudio = true;
+                m_CurrentSpray -= Time.deltaTime;
                 break;
             case false:
                 SprayFoam.Stop();
