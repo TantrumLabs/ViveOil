@@ -1,4 +1,13 @@
-﻿using UnityEngine;
+﻿/*  Creator: Eric Z Mouledoux
+ *  Contact: Eric@TantrumLab.com
+ *  
+ *  Usage:
+ *  
+ *  Notes:
+ * 
+ */
+
+using UnityEngine;
 using System.Collections.Generic;
 
 public class GameFlow : MonoBehaviour
