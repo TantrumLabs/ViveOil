@@ -13,6 +13,8 @@ public class FireExtinguisher : MonoBehaviour
 
     SteamVR_TrackedObject trackedObject;
     SteamVR_Controller.Device device;
+    
+    public float m_CurrentSpray;
 
     void Start()
     {
@@ -30,7 +32,7 @@ public class FireExtinguisher : MonoBehaviour
     {
         device = SteamVR_Controller.Input((int)trackedObject.index);
 
-        if (leftController.triggerPressed)
+        if (leftController.triggerPressed && m_CurrentSpray > 0)
         {
             SetSpray(true);
             device.TriggerHapticPulse(1000);
@@ -57,6 +59,7 @@ public class FireExtinguisher : MonoBehaviour
             case true:
                 SprayFoam.Play();
                 playAudio = true;
+                m_CurrentSpray -= Time.deltaTime;
                 break;
             case false:
                 SprayFoam.Stop();
