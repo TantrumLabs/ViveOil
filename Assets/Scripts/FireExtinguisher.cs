@@ -13,7 +13,8 @@ public class FireExtinguisher : MonoBehaviour
 
     SteamVR_TrackedObject trackedObject;
     SteamVR_Controller.Device device;
-    
+
+    private float m_MaxSpray;
     public float m_CurrentSpray;
 
     void Start()
@@ -26,6 +27,8 @@ public class FireExtinguisher : MonoBehaviour
         SprayFoam = this.transform.GetComponentInChildren<ParticleSystem>();
         
         SetSpray(false);
+
+        m_MaxSpray = m_CurrentSpray;
     }
 
     void Update()
@@ -50,6 +53,11 @@ public class FireExtinguisher : MonoBehaviour
             audio.Stop();
     }
 
+    void OnEnable()
+    {
+        Refresh();
+    }
+
     public void SetSpray(bool active)
     {
         SprayNozzle.enabled = active;
@@ -66,5 +74,10 @@ public class FireExtinguisher : MonoBehaviour
                 playAudio = false;
                 break;
         }
+    }
+
+    public void Refresh()
+    {
+        m_CurrentSpray = m_MaxSpray;
     }
 }
