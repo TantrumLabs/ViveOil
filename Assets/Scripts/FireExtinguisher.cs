@@ -53,6 +53,11 @@ public class FireExtinguisher : MonoBehaviour
             audio.Stop();
     }
 
+    void OnEnable()
+    {
+        Refresh();
+    }
+
     public void SetSpray(bool active)
     {
         SprayNozzle.enabled = active;
