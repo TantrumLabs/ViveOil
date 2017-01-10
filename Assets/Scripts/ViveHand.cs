@@ -146,6 +146,7 @@ public class ViveHand : MonoBehaviour
         device.TriggerHapticPulse(500);
     }
 
+    [ContextMenu("PICK UP")]
     public int PickUp(GameObject aObject)
     {
         if (m_SelectedInteractable == null)
@@ -159,6 +160,7 @@ public class ViveHand : MonoBehaviour
         return 0;
     }
 
+    [ContextMenu("DROP")]
     public int Drop()
     {
         if (m_ObjectInHand != null)
