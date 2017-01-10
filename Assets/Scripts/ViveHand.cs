@@ -79,6 +79,13 @@ public class ViveHand : MonoBehaviour
     bool trigger = false;
     
     private GameObject m_ObjectInHand;
+    private Interactable m_SelectedInteractable
+    {
+        get
+        {
+            return m_SelectedObject.GetComponent<Interactable>();
+        }
+    }
 
     void Start()
     {
@@ -90,12 +97,24 @@ public class ViveHand : MonoBehaviour
     void Update()
     {
         if (m_SelectedObject == null)
+        {
             return;
+        }
 
         else if (trackedHand.triggerPressed && !trigger)
         {
             trigger = true;
-            m_SelectedObject.GetComponent<IInteractableObject>().Interact();
+
+            switch(m_SelectedInteractable.m_Type)
+            {
+                case Interactable.e_Type.INTERACTABLE:
+                    m_SelectedInteractable.m_OnInteraction.Invoke();
+                    break;
+                case Interactable.e_Type.PICKUP:
+                    PickUp(m_SelectedObject);
+                    break;
+            }
+
         }
         else if (!trackedHand.triggerPressed && trigger)
         {
@@ -105,24 +124,18 @@ public class ViveHand : MonoBehaviour
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<IInteractableObject>() != null)
+        if (other.gameObject.GetComponent<Interactable>() != null)
         {
-            if (m_SelectedObject != null)
-            {
-                m_SelectedObject.GetComponent<IInteractableObject>().Touch(false);
-            }
-
             m_SelectedObject = other.gameObject;
-            m_SelectedObject.GetComponent<IInteractableObject>().Touch(true);
+            m_SelectedInteractable.m_OnTouch.Invoke();
             HapticPulse();
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.gameObject.GetComponent<IInteractableObject>() != null)
+        if (other.gameObject == m_SelectedObject)
         {
-            m_SelectedObject.GetComponent<IInteractableObject>().Touch(false);
             m_SelectedObject = null;
             HapticPulse();
         }
@@ -130,22 +143,18 @@ public class ViveHand : MonoBehaviour
 
     void HapticPulse()
     {
-        //device = SteamVR_Controller.Input((int)trackedObject.index);
-        device.TriggerHapticPulse(500); // 
+        device.TriggerHapticPulse(500);
     }
 
-    public int PickUp(PickUp aObject)
+    public int PickUp(GameObject aObject)
     {
-        PickUp pickUp = m_SelectedObject.GetComponent<PickUp>();
-
-        if (pickUp == null)
+        if (m_SelectedInteractable == null)
         {
-            pickUp = aObject;
-            pickUp.transform.parent = gameObject.transform;
-            pickUp.transform.localPosition = Vector3.zero;
+            m_SelectedInteractable.transform.parent = gameObject.transform;
+            m_SelectedInteractable.transform.localPosition = Vector3.zero;
 
-            m_ObjectInHand = Instantiate(pickUp.m_ObjectInHand, transform) as GameObject;
-            pickUp.gameObject.SetActive(false);
+            m_ObjectInHand = Instantiate(m_SelectedInteractable.m_ObjectInHand, transform) as GameObject;
+            m_SelectedInteractable.gameObject.SetActive(false);
         }
         return 0;
     }
@@ -154,10 +163,10 @@ public class ViveHand : MonoBehaviour
     {
         if (m_ObjectInHand != null)
         {
-            m_PickUp.gameObject.SetActive(true);
+            m_SelectedObject.SetActive(true);
             Destroy(m_ObjectInHand);
-            m_PickUp.transform.parent = null;
-            m_PickUp = null;
+            m_SelectedObject.transform.parent = null;
+            m_SelectedObject = null;
         }
 
         return 0;

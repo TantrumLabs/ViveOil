@@ -3,10 +3,10 @@ using System.Collections;
 
 public class Hand : MonoBehaviour
 {
-    public PickUp m_InHand;
+    public Interactable m_InHand;
     private GameObject m_ObjectInHand;
 
-    public int PickUp(PickUp aObject)
+    public int PickUp(Interactable aObject)
     {
         if (m_InHand == null)
         {
