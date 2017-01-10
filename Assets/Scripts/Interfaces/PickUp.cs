@@ -10,4 +10,9 @@ public class PickUp : MonoBehaviour
         if (m_ObjectInHand == null)
             m_ObjectInHand = gameObject;
     }
+
+    public int Touch()
+    {
+        return 0;
+    }
 }
