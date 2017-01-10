@@ -6,18 +6,6 @@ public class Hand : MonoBehaviour
     public PickUp m_InHand;
     private GameObject m_ObjectInHand;
 
-    void OnTriggerEnter(Collider other)
-    {
-        PickUp p = other.GetComponent<PickUp>();
-        if (p != null)
-            PickUp(p);
-    }
-
-    public int Interact()
-    {
-        return 0;
-    }
-
     public int PickUp(PickUp aObject)
     {
         if (m_InHand == null)
@@ -42,11 +30,6 @@ public class Hand : MonoBehaviour
             m_InHand = null;
         }
 
-        return 0;
-    }
-
-    public int ResetInHand()
-    {
         return 0;
     }
 }
