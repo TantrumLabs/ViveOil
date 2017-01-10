@@ -1,9 +1,16 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PickUp : MonoBehaviour
+public class Interactable : MonoBehaviour
 {
+    public enum e_Type
+    {
+        INTERACTABLE,
+        PICKUP,
+    }
+
     public GameObject m_ObjectInHand;
+    public e_Type m_Type;
 
     void Awake()
     {
