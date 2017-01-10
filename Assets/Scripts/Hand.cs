@@ -13,7 +13,11 @@ public class Hand : MonoBehaviour
     public int PickUp(PickUp aObject)
     {
         m_InHand = aObject;
-        Instantiate(aObject.m_ObjectInHand, transform);
+        m_InHand.transform.parent = gameObject.transform;
+        m_InHand.transform.localPosition = Vector3.zero;
+
+        Instantiate(m_InHand.m_ObjectInHand, transform);
+        m_InHand.gameObject.SetActive(false);
 
         return 0;
     }
@@ -23,7 +27,11 @@ public class Hand : MonoBehaviour
         for(int i = 0; i < transform.childCount; ++i)
         {
             if (transform.GetChild(i) == m_InHand.m_ObjectInHand)
-                transform.GetChild(i).transform.parent = null;
+            {
+                m_InHand.gameObject.SetActive(true);
+                Destroy(transform.GetChild(i));
+                m_InHand.transform.parent = null;
+            }
         }
 
         return 0;
