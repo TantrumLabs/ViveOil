@@ -3,34 +3,33 @@ using System.Collections;
 
 public class Hand : MonoBehaviour
 {
-    public PickUp m_InHand;
+    public Interactable m_InHand;
+    private GameObject m_ObjectInHand;
 
-    public int Interact()
+    public int PickUp(Interactable aObject)
     {
-        return 0;
-    }
+        if (m_InHand == null)
+        {
+            m_InHand = aObject;
+            m_InHand.transform.parent = gameObject.transform;
+            m_InHand.transform.localPosition = Vector3.zero;
 
-    public int PickUp(PickUp aObject)
-    {
-        m_InHand = aObject;
-        Instantiate(aObject.m_ObjectInHand, transform);
-
+            m_ObjectInHand = Instantiate(m_InHand.m_ObjectInHand, transform) as GameObject;
+            m_InHand.gameObject.SetActive(false);
+        }
         return 0;
     }
     
     public int Drop()
     {
-        for(int i = 0; i < transform.childCount; ++i)
+        if(m_ObjectInHand != null)
         {
-            if (transform.GetChild(i) == m_InHand.m_ObjectInHand)
-                transform.GetChild(i).transform.parent = null;
+            m_InHand.gameObject.SetActive(true);
+            Destroy(m_ObjectInHand);
+            m_InHand.transform.parent = null;
+            m_InHand = null;
         }
 
-        return 0;
-    }
-
-    public int ResetInHand()
-    {
         return 0;
     }
 }
