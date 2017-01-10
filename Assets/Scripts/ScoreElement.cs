@@ -9,23 +9,28 @@ public class ScoreElement : MonoBehaviour
     /// Will be used to write out to the ScoreCard
     /// </summary>
     [SerializeField]
-    private string m_name;
+    public string m_name;
 
     /// <summary>
     /// Message added to the ReportCard if the score isn't satisfactory
     /// </summary>
     [SerializeField]
-    private string m_feedbackMessage;
+    public string m_feedbackMessage;
 
     /// <summary>
     /// If the player score is below
     /// </summary>
-    public bool m_needsFeedback = true;
+    public bool m_needsFeedback = false;
 
     /// <summary>
     /// Number of points scored
     /// </summary>
     public int m_actualScore = 0;
+
+    //public int m_actualScore
+    //{
+    //    return m_actScore;
+    //}
 
     /// <summary>
     /// Number of points possible to be scored
@@ -38,6 +43,14 @@ public class ScoreElement : MonoBehaviour
     /// </summary>
     [SerializeField] [Range(0,100)]
     private int m_passPercent = 0;
+
+    public ScoreElement(string a_name, int a_possible, string a_feedback, int a_passPercent)
+    {
+        m_name = a_name;
+        m_possibleScore = a_possible;
+        m_feedbackMessage = a_feedback;
+        m_passPercent = a_passPercent;
+    }
 
     public void SetScore(int a_score)
     {
@@ -62,11 +75,11 @@ public class ScoreElement : MonoBehaviour
         return (s);
     }
 
-    public string PrintScore()
-    {
-        string t = m_name + ": \t";   // Name of Scoring Catigory
-        t += ScoreString();         // 
-        t += Feedback();            // Print Feedback message if needed
-        return t;
-    }
+    //public string PrintScore()
+    //{
+    //    string t = m_name + ": \t";   // Name of Scoring Catigory
+    //    t += ScoreString();         // 
+    //    t += Feedback();            // Print Feedback message if needed
+    //    return t;
+    //}
 }
