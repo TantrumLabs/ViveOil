@@ -4,6 +4,14 @@ using System.Collections;
 public class Hand : MonoBehaviour
 {
     public PickUp m_InHand;
+    private GameObject m_ObjectInHand;
+
+    void OnTriggerEnter(Collider other)
+    {
+        PickUp p = other.GetComponent<PickUp>();
+        if (p != null)
+            PickUp(p);
+    }
 
     public int Interact()
     {
@@ -12,26 +20,26 @@ public class Hand : MonoBehaviour
 
     public int PickUp(PickUp aObject)
     {
-        m_InHand = aObject;
-        m_InHand.transform.parent = gameObject.transform;
-        m_InHand.transform.localPosition = Vector3.zero;
+        if (m_InHand == null)
+        {
+            m_InHand = aObject;
+            m_InHand.transform.parent = gameObject.transform;
+            m_InHand.transform.localPosition = Vector3.zero;
 
-        Instantiate(m_InHand.m_ObjectInHand, transform);
-        m_InHand.gameObject.SetActive(false);
-
+            m_ObjectInHand = Instantiate(m_InHand.m_ObjectInHand, transform) as GameObject;
+            m_InHand.gameObject.SetActive(false);
+        }
         return 0;
     }
     
     public int Drop()
     {
-        for(int i = 0; i < transform.childCount; ++i)
+        if(m_ObjectInHand != null)
         {
-            if (transform.GetChild(i) == m_InHand.m_ObjectInHand)
-            {
-                m_InHand.gameObject.SetActive(true);
-                Destroy(transform.GetChild(i));
-                m_InHand.transform.parent = null;
-            }
+            m_InHand.gameObject.SetActive(true);
+            Destroy(m_ObjectInHand);
+            m_InHand.transform.parent = null;
+            m_InHand = null;
         }
 
         return 0;
