@@ -175,6 +175,8 @@ public class ViveHand : MonoBehaviour
         if (m_SelectedInteractable != null)
         {
             m_SelectedInteractable.m_OffTouch.Invoke();
+            m_SelectedInteractable.m_OnPickUp.Invoke();
+
             m_ObjectInHand = m_SelectedInteractable.gameObject;
             m_SelectedInteractable.transform.parent = gameObject.transform;
 
@@ -193,7 +195,8 @@ public class ViveHand : MonoBehaviour
     {
         if (m_ObjectInHand != null)
         {
-            m_SelectedInteractable.m_OffInteraction.Invoke();
+            m_SelectedInteractable.m_OnDrop.Invoke();
+
             m_SelectedObject.transform.parent = null;
             m_SelectedObject = null;
         }

@@ -9,6 +9,10 @@ public class Interactable : MonoBehaviour
 
     public UnityEngine.Events.UnityEvent m_OnTouch;
     public UnityEngine.Events.UnityEvent m_OffTouch;
+
+    public UnityEngine.Events.UnityEvent m_OnPickUp;
+    public UnityEngine.Events.UnityEvent m_OnDrop;
+
     public UnityEngine.Events.UnityEvent m_OnInteraction;
     public UnityEngine.Events.UnityEvent m_OffInteraction;
 }
