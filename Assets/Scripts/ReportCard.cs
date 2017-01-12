@@ -67,7 +67,8 @@ public class ReportCard : MonoBehaviour
     {
         int t = -15;
 
-        ScoreElement total;
+        int totalScored = 0;
+        int totalPossible = 0;
 
         foreach(ScoreElement se in m_scores )
         {
@@ -76,10 +77,22 @@ public class ReportCard : MonoBehaviour
             g.GetComponent<ScoreCard>().LoadScoreCard(se);
             g.GetComponent<RectTransform>().anchoredPosition = new Vector3(0,t,0);
 
+            totalScored += se.m_actualScore;
+            totalPossible += se.m_possibleScore;
+
             t -= 55;
             yield return new WaitForSeconds(0.5f);
         }
-        
+
+        t -= 20;
+
+        ScoreElement total = new ScoreElement("Total", totalPossible, "Let's do better next time.", 60);
+        total.SetScore(totalScored);
+        GameObject g2 = Instantiate<GameObject>(m_scoreCardPrefab);
+        g2.transform.SetParent(gameObject.transform);
+        g2.GetComponent<ScoreCard>().LoadScoreCard(total);
+        g2.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, t, 0);
+
 
     }
 }
