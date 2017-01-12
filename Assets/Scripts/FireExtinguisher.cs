@@ -8,8 +8,9 @@ public class FireExtinguisher : MonoBehaviour
     Collider SprayNozzle;
     ParticleSystem SprayFoam;
     EllipsoidParticleEmitter steamParticleSystem;
-    SteamVR_TrackedController leftController;
-    SteamVR_TrackedController rightController;
+
+    SteamVR_TrackedController m_OnHand;
+    SteamVR_TrackedController m_OffHand;
 
     SteamVR_TrackedObject trackedObject;
     SteamVR_Controller.Device device;
@@ -20,11 +21,11 @@ public class FireExtinguisher : MonoBehaviour
     void Start()
     {
         audio = gameObject.GetComponent<AudioSource>();
-        leftController  = GameObject.FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
-        rightController = GameObject.FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
-        trackedObject = rightController.gameObject.GetComponent<SteamVR_TrackedObject>();
-        SprayNozzle = this.transform.GetComponentInChildren<Collider>();
-        SprayFoam = this.transform.GetComponentInChildren<ParticleSystem>();
+        //leftController  = FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
+        //rightController = FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
+        //trackedObject = rightController.gameObject.GetComponent<SteamVR_TrackedObject>();
+        SprayNozzle = transform.GetComponentInChildren<Collider>();
+        SprayFoam = transform.GetComponentInChildren<ParticleSystem>();
         
         SetSpray(false);
 
@@ -33,15 +34,9 @@ public class FireExtinguisher : MonoBehaviour
 
     void Update()
     {
-        device = SteamVR_Controller.Input((int)trackedObject.index);
+        //device = SteamVR_Controller.Input((int)trackedObject.index);
 
-        if (leftController.triggerPressed && m_CurrentSpray > 0)
-        {
-            SetSpray(true);
-            device.TriggerHapticPulse(1000);
-        }
-
-        else
+        if (m_CurrentSpray <= 0)
         {
             SetSpray(false);
         }
@@ -60,6 +55,9 @@ public class FireExtinguisher : MonoBehaviour
 
     public void SetSpray(bool active)
     {
+        if (m_CurrentSpray <= 0)
+            return;
+
         SprayNozzle.enabled = active;
 
         switch (active)
