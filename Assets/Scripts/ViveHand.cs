@@ -105,15 +105,10 @@ public class ViveHand : MonoBehaviour
         {
             trigger = true;
 
-            switch(m_SelectedInteractable.m_Type)
-            {
-                case Interactable.e_Type.INTERACTABLE:
-                    m_SelectedInteractable.m_OnInteraction.Invoke();
-                    break;
-                case Interactable.e_Type.PICKUP:
-                    PickUp(m_SelectedObject);
-                    break;
-            }
+            if (m_SelectedInteractable.m_IsPickUp)
+                PickUp(m_SelectedInteractable.gameObject);
+
+            m_SelectedInteractable.m_OnInteraction.Invoke();
 
         }
         else if (!trackedHand.triggerPressed && trigger)
@@ -142,6 +137,7 @@ public class ViveHand : MonoBehaviour
         if (other.gameObject == m_SelectedObject)
         {
             m_SelectedObject = null;
+            m_SelectedInteractable.m_OffTouch.Invoke();
             HapticPulse();
         }
     }
@@ -159,10 +155,10 @@ public class ViveHand : MonoBehaviour
             m_SelectedInteractable.transform.parent = gameObject.transform;
             m_SelectedInteractable.transform.localPosition = Vector3.zero;
 
-            m_ObjectInHand = Instantiate(m_SelectedInteractable.m_ObjectInHand, transform) as GameObject;
-            m_ObjectInHand.transform.localPosition = m_SelectedObject.GetComponent<Interactable>().PickUpOffset;
+            m_ObjectInHand = m_SelectedInteractable.gameObject;
 
-            m_SelectedInteractable.gameObject.SetActive(false);
+            m_ObjectInHand.transform.localPosition = m_SelectedObject.GetComponent<Interactable>().PickUpOffset;
+            
         }
         return 0;
     }
@@ -172,8 +168,7 @@ public class ViveHand : MonoBehaviour
     {
         if (m_ObjectInHand != null)
         {
-            m_SelectedObject.SetActive(true);
-            Destroy(m_ObjectInHand);
+            m_SelectedInteractable.m_OffInteraction.Invoke();
             m_SelectedObject.transform.parent = null;
             m_SelectedObject = null;
         }
