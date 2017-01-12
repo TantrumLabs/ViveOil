@@ -120,11 +120,16 @@ public class ViveHand : MonoBehaviour
         {
             trigger = false;
         }
+
+        if(trackedHand.gripped && m_ObjectInHand != null)
+        {
+            Drop();
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Interactable>() != null)
+        if (other.gameObject.GetComponent<Interactable>() != null && m_SelectedObject == null)
         {
             m_SelectedObject = other.gameObject;
             m_SelectedInteractable.m_OnTouch.Invoke();
@@ -149,12 +154,14 @@ public class ViveHand : MonoBehaviour
     [ContextMenu("PICK UP")]
     public int PickUp(GameObject aObject)
     {
-        if (m_SelectedInteractable == null)
+        if (m_SelectedInteractable != null && m_SelectedObject.activeSelf)
         {
             m_SelectedInteractable.transform.parent = gameObject.transform;
             m_SelectedInteractable.transform.localPosition = Vector3.zero;
 
             m_ObjectInHand = Instantiate(m_SelectedInteractable.m_ObjectInHand, transform) as GameObject;
+            m_ObjectInHand.transform.localPosition = m_SelectedObject.GetComponent<Interactable>().PickUpOffset;
+
             m_SelectedInteractable.gameObject.SetActive(false);
         }
         return 0;

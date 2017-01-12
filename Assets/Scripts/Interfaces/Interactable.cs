@@ -12,6 +12,8 @@ public class Interactable : MonoBehaviour
     public GameObject m_ObjectInHand;
     public e_Type m_Type;
 
+    public Vector3 PickUpOffset;
+
     public UnityEngine.Events.UnityEvent m_OnTouch;
     public UnityEngine.Events.UnityEvent m_OnInteraction;
 
