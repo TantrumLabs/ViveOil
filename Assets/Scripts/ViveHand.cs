@@ -96,7 +96,7 @@ public class ViveHand : MonoBehaviour
 
     void Update()
     {
-        if (m_SelectedObject == null)
+        if (m_SelectedObject == null && m_ObjectInHand == null)
         {
             return;
         }
@@ -159,6 +159,9 @@ public class ViveHand : MonoBehaviour
             m_SelectedInteractable.m_OffTouch.Invoke();
             HapticPulse();
         }
+        //if (other.GetComponent<Interactable>() != null)
+        //{
+        //}
     }
 
     void HapticPulse()
@@ -169,17 +172,18 @@ public class ViveHand : MonoBehaviour
     [ContextMenu("PICK UP")]
     public int PickUp()
     {
-        if (m_SelectedInteractable != null && m_SelectedObject.activeSelf)
+        if (m_SelectedInteractable != null)
         {
             m_SelectedInteractable.m_OffTouch.Invoke();
-            m_SelectedInteractable.transform.parent = gameObject.transform;
-            m_SelectedInteractable.transform.localPosition = Vector3.zero;
-
             m_ObjectInHand = m_SelectedInteractable.gameObject;
+            m_SelectedInteractable.transform.parent = gameObject.transform;
 
-            m_ObjectInHand.transform.localPosition =
-                m_SelectedObject.GetComponent<Interactable>().PickUpOffset;
+            m_SelectedInteractable.transform.localPosition = Vector3.zero +
+                m_SelectedInteractable.m_PickUpOffsetPOS;
             
+            m_SelectedInteractable.transform.localEulerAngles = Vector3.zero +
+                m_SelectedInteractable.m_PickUpOffsetROT;
+
         }
         return 0;
     }
