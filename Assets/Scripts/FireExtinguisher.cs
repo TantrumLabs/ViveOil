@@ -21,9 +21,9 @@ public class FireExtinguisher : MonoBehaviour
     void Start()
     {
         audio = gameObject.GetComponent<AudioSource>();
-        leftController  = FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
-        rightController = FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
-        trackedObject = rightController.gameObject.GetComponent<SteamVR_TrackedObject>();
+        //leftController  = FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
+        //rightController = FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
+        //trackedObject = rightController.gameObject.GetComponent<SteamVR_TrackedObject>();
         SprayNozzle = transform.GetComponentInChildren<Collider>();
         SprayFoam = transform.GetComponentInChildren<ParticleSystem>();
         
@@ -34,15 +34,9 @@ public class FireExtinguisher : MonoBehaviour
 
     void Update()
     {
-        device = SteamVR_Controller.Input((int)trackedObject.index);
+        //device = SteamVR_Controller.Input((int)trackedObject.index);
 
-        if (m_OffHand.triggerPressed && m_CurrentSpray > 0)
-        {
-            SetSpray(true);
-            device.TriggerHapticPulse(1000);
-        }
-
-        else
+        if (m_CurrentSpray <= 0)
         {
             SetSpray(false);
         }
@@ -61,6 +55,9 @@ public class FireExtinguisher : MonoBehaviour
 
     public void SetSpray(bool active)
     {
+        if (m_CurrentSpray <= 0)
+            return;
+
         SprayNozzle.enabled = active;
 
         switch (active)

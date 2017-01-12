@@ -101,14 +101,33 @@ public class ViveHand : MonoBehaviour
             return;
         }
 
+        else if (m_ObjectInHand != null)
+        {
+            if (trackedHand.triggerPressed && !trigger)
+            {
+                trigger = true;
+                m_SelectedInteractable.m_OnInteraction.Invoke();
+            }
+
+            else if (!trackedHand.triggerPressed && trigger)
+            {
+                trigger = false;
+                m_SelectedInteractable.m_OffInteraction.Invoke();
+            }
+        }
+
         else if (trackedHand.triggerPressed && !trigger)
         {
             trigger = true;
 
             if (m_SelectedInteractable.m_IsPickUp)
-                PickUp(m_SelectedInteractable.gameObject);
-
-            m_SelectedInteractable.m_OnInteraction.Invoke();
+            {
+                PickUp();
+            }
+            else
+            {
+                m_SelectedInteractable.m_OnInteraction.Invoke();
+            }
 
         }
         else if (!trackedHand.triggerPressed && trigger)
@@ -148,16 +167,18 @@ public class ViveHand : MonoBehaviour
     }
 
     [ContextMenu("PICK UP")]
-    public int PickUp(GameObject aObject)
+    public int PickUp()
     {
         if (m_SelectedInteractable != null && m_SelectedObject.activeSelf)
         {
+            m_SelectedInteractable.m_OffTouch.Invoke();
             m_SelectedInteractable.transform.parent = gameObject.transform;
             m_SelectedInteractable.transform.localPosition = Vector3.zero;
 
             m_ObjectInHand = m_SelectedInteractable.gameObject;
 
-            m_ObjectInHand.transform.localPosition = m_SelectedObject.GetComponent<Interactable>().PickUpOffset;
+            m_ObjectInHand.transform.localPosition =
+                m_SelectedObject.GetComponent<Interactable>().PickUpOffset;
             
         }
         return 0;
