@@ -15,21 +15,23 @@ public class FireExtinguisher : MonoBehaviour
     SteamVR_TrackedObject trackedObject;
     SteamVR_Controller.Device device;
 
-    private float m_MaxSpray;
-    public float m_CurrentSpray;
+    private float m_MaxSpray = 0;
+    [SerializeField] float m_CurrentSpray = 0;
 
     void Start()
     {
+        m_MaxSpray = m_CurrentSpray;
+
         audio = gameObject.GetComponent<AudioSource>();
         //leftController  = FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
         //rightController = FindObjectOfType<SteamVR_ControllerManager>().right.GetComponent<SteamVR_TrackedController>();
         //trackedObject = rightController.gameObject.GetComponent<SteamVR_TrackedObject>();
-        SprayNozzle = transform.GetComponentInChildren<Collider>();
-        SprayFoam = transform.GetComponentInChildren<ParticleSystem>();
+        //SprayNozzle = transform.GetComponentInChildren<Collider>();
         
-        SetSpray(false);
+        SprayFoam = transform.GetComponentInChildren<ParticleSystem>();
+        SprayNozzle = SprayFoam.gameObject.GetComponent<Collider>();
 
-        m_MaxSpray = m_CurrentSpray;
+        SetSpray(false);
     }
 
     void Update()
@@ -76,6 +78,6 @@ public class FireExtinguisher : MonoBehaviour
 
     public void Refresh()
     {
-        m_CurrentSpray = m_MaxSpray;
+        //m_CurrentSpray = m_MaxSpray;
     }
 }
