@@ -96,23 +96,37 @@ public class ViveHand : MonoBehaviour
 
     void Update()
     {
-        if (m_SelectedObject == null)
+        if (m_SelectedObject == null && m_ObjectInHand == null)
         {
             return;
+        }
+
+        else if (m_ObjectInHand != null)
+        {
+            if (trackedHand.triggerPressed && !trigger)
+            {
+                trigger = true;
+                m_SelectedInteractable.m_OnInteraction.Invoke();
+            }
+
+            else if (!trackedHand.triggerPressed && trigger)
+            {
+                trigger = false;
+                m_SelectedInteractable.m_OffInteraction.Invoke();
+            }
         }
 
         else if (trackedHand.triggerPressed && !trigger)
         {
             trigger = true;
 
-            switch(m_SelectedInteractable.m_Type)
+            if (m_SelectedInteractable.m_IsPickUp)
             {
-                case Interactable.e_Type.INTERACTABLE:
-                    m_SelectedInteractable.m_OnInteraction.Invoke();
-                    break;
-                case Interactable.e_Type.PICKUP:
-                    PickUp(m_SelectedObject);
-                    break;
+                PickUp();
+            }
+            else
+            {
+                m_SelectedInteractable.m_OnInteraction.Invoke();
             }
 
         }
@@ -120,11 +134,16 @@ public class ViveHand : MonoBehaviour
         {
             trigger = false;
         }
+
+        if(trackedHand.gripped && m_ObjectInHand != null)
+        {
+            Drop();
+        }
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Interactable>() != null)
+        if (other.gameObject.GetComponent<Interactable>() != null && m_SelectedObject == null)
         {
             m_SelectedObject = other.gameObject;
             m_SelectedInteractable.m_OnTouch.Invoke();
@@ -137,8 +156,12 @@ public class ViveHand : MonoBehaviour
         if (other.gameObject == m_SelectedObject)
         {
             m_SelectedObject = null;
+            m_SelectedInteractable.m_OffTouch.Invoke();
             HapticPulse();
         }
+        //if (other.GetComponent<Interactable>() != null)
+        //{
+        //}
     }
 
     void HapticPulse()
@@ -147,15 +170,22 @@ public class ViveHand : MonoBehaviour
     }
 
     [ContextMenu("PICK UP")]
-    public int PickUp(GameObject aObject)
+    public int PickUp()
     {
-        if (m_SelectedInteractable == null)
+        if (m_SelectedInteractable != null)
         {
-            m_SelectedInteractable.transform.parent = gameObject.transform;
-            m_SelectedInteractable.transform.localPosition = Vector3.zero;
+            m_SelectedInteractable.m_OffTouch.Invoke();
+            m_SelectedInteractable.m_OnPickUp.Invoke();
 
-            m_ObjectInHand = Instantiate(m_SelectedInteractable.m_ObjectInHand, transform) as GameObject;
-            m_SelectedInteractable.gameObject.SetActive(false);
+            m_ObjectInHand = m_SelectedInteractable.gameObject;
+            m_SelectedInteractable.transform.parent = gameObject.transform;
+
+            m_SelectedInteractable.transform.localPosition = Vector3.zero +
+                m_SelectedInteractable.m_PickUpOffsetPOS;
+            
+            m_SelectedInteractable.transform.localEulerAngles = Vector3.zero +
+                m_SelectedInteractable.m_PickUpOffsetROT;
+
         }
         return 0;
     }
@@ -165,8 +195,8 @@ public class ViveHand : MonoBehaviour
     {
         if (m_ObjectInHand != null)
         {
-            m_SelectedObject.SetActive(true);
-            Destroy(m_ObjectInHand);
+            m_SelectedInteractable.m_OnDrop.Invoke();
+
             m_SelectedObject.transform.parent = null;
             m_SelectedObject = null;
         }

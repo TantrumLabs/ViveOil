@@ -3,21 +3,16 @@ using System.Collections;
 
 public class Interactable : MonoBehaviour
 {
-    public enum e_Type
-    {
-        INTERACTABLE,
-        PICKUP,
-    }
-
-    public GameObject m_ObjectInHand;
-    public e_Type m_Type;
+    public bool m_IsPickUp;
+    public Vector3 m_PickUpOffsetPOS;
+    public Vector3 m_PickUpOffsetROT;
 
     public UnityEngine.Events.UnityEvent m_OnTouch;
-    public UnityEngine.Events.UnityEvent m_OnInteraction;
+    public UnityEngine.Events.UnityEvent m_OffTouch;
 
-    void Awake()
-    {
-        if (m_ObjectInHand == null)
-            m_ObjectInHand = gameObject;
-    }
+    public UnityEngine.Events.UnityEvent m_OnPickUp;
+    public UnityEngine.Events.UnityEvent m_OnDrop;
+
+    public UnityEngine.Events.UnityEvent m_OnInteraction;
+    public UnityEngine.Events.UnityEvent m_OffInteraction;
 }

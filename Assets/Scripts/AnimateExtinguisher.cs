@@ -4,15 +4,17 @@ using System.Collections;
 public class AnimateExtinguisher : MonoBehaviour
 {
     [SerializeField]Animator anim;
-    SteamVR_TrackedController controller;
-
-    void Start()
+    SteamVR_TrackedController controller
     {
-        controller = transform.parent.GetComponent<SteamVR_TrackedController>();
+        get
+        {
+            return transform.parent.GetComponent<SteamVR_TrackedController>();
+        }
     }
 
     void Update ()
     {
-        anim.SetBool("TriggerPressed", controller.triggerPressed);
+        if(controller != null)
+            anim.SetBool("TriggerPressed", controller.triggerPressed);
 	}
 }

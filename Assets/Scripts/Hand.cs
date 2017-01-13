@@ -14,7 +14,7 @@ public class Hand : MonoBehaviour
             m_InHand.transform.parent = gameObject.transform;
             m_InHand.transform.localPosition = Vector3.zero;
 
-            m_ObjectInHand = Instantiate(m_InHand.m_ObjectInHand, transform) as GameObject;
+            //m_ObjectInHand = Instantiate(m_InHand.m_ObjectInHand, transform) as GameObject;
             m_InHand.gameObject.SetActive(false);
         }
         return 0;

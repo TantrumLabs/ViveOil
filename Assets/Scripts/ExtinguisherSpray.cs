@@ -32,7 +32,6 @@ public class ExtinguisherSpray : MonoBehaviour
             float currentYRotation = gameObject.transform.rotation.y;
 
             m_shake = (Mathf.Abs(currentYRotation - m_lastYRotation) > shakeBreak);
-            Debug.Log(Mathf.Abs(currentYRotation - m_lastYRotation));
             m_lastYRotation = currentYRotation;
 
             yield return new WaitForSeconds(.1f);
