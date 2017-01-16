@@ -15,12 +15,15 @@ public class FireExtinguisher : MonoBehaviour
     SteamVR_TrackedObject trackedObject;
     SteamVR_Controller.Device device;
 
-    private float m_MaxSpray = 0;
-    [SerializeField] float m_CurrentSpray = 0;
+    [SerializeField] float m_MaxSpray = 0;
+    private float m_CurrentSpray = 0;
+
+    bool m_spraying = false;
 
     void Start()
     {
-        m_MaxSpray = m_CurrentSpray;
+        m_CurrentSpray = m_MaxSpray;
+        //m_MaxSpray = m_CurrentSpray;
 
         audio = gameObject.GetComponent<AudioSource>();
         //leftController  = FindObjectOfType<SteamVR_ControllerManager>().left.GetComponent<SteamVR_TrackedController>();
@@ -38,10 +41,14 @@ public class FireExtinguisher : MonoBehaviour
     {
         //device = SteamVR_Controller.Input((int)trackedObject.index);
 
-        if (m_CurrentSpray <= 0)
-        {
-            SetSpray(false);
-        }
+        //if (m_CurrentSpray <= 0)
+        //{
+        //    SprayNozzle.enabled = false;
+        //    SetSpray(false);
+        //}
+
+        if (m_spraying)
+            Spray();
 
         if (playAudio && !audio.isPlaying)
             audio.Play();
@@ -50,34 +57,34 @@ public class FireExtinguisher : MonoBehaviour
             audio.Stop();
     }
 
-    void OnEnable()
-    {
-        Refresh();
-    }
+   
 
     public void SetSpray(bool active)
     {
+        m_spraying = active;
+
         if (m_CurrentSpray <= 0)
             return;
 
-        SprayNozzle.enabled = active;
-
-        switch (active)
+        if(!active)
         {
-            case true:
-                SprayFoam.Play();
-                playAudio = true;
-                m_CurrentSpray -= Time.deltaTime;
-                break;
-            case false:
-                SprayFoam.Stop();
-                playAudio = false;
-                break;
+            SprayFoam.Stop();
+            playAudio = false;
         }
+        
     }
 
-    public void Refresh()
+    void Spray()
     {
-        //m_CurrentSpray = m_MaxSpray;
+        if (m_CurrentSpray < 0)
+        { 
+            m_spraying = false;
+            return;
+        }
+        m_CurrentSpray -= Time.deltaTime;
+        SprayFoam.Play();
+        playAudio = true;
     }
+
+
 }
