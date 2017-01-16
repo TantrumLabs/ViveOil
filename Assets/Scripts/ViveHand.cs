@@ -75,7 +75,7 @@ public class ViveHand : MonoBehaviour
     SteamVR_TrackedObject trackedObject;
     SteamVR_TrackedController trackedHand;
 
-    GameObject viveControllerModel;
+    [SerializeField] GameObject viveControllerModel;
     bool trigger = false;
     
     private GameObject m_ObjectInHand;
@@ -103,6 +103,12 @@ public class ViveHand : MonoBehaviour
 
         else if (m_ObjectInHand != null)
         {
+            if (m_ObjectInHand.transform.parent != gameObject.transform)
+            {
+                m_ObjectInHand = null;
+                return;
+            }
+
             if (trackedHand.triggerPressed && !trigger)
             {
                 trigger = true;
@@ -139,11 +145,16 @@ public class ViveHand : MonoBehaviour
         {
             Drop();
         }
+
+        viveControllerModel.SetActive(m_ObjectInHand == null);
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (other.gameObject.GetComponent<Interactable>() != null && m_SelectedObject == null)
+        if (other.gameObject == m_ObjectInHand)
+            return;
+
+        else if (other.gameObject.GetComponent<Interactable>() != null && m_SelectedObject == null)
         {
             m_SelectedObject = other.gameObject;
             m_SelectedInteractable.m_OnTouch.Invoke();
@@ -180,11 +191,11 @@ public class ViveHand : MonoBehaviour
             m_ObjectInHand = m_SelectedInteractable.gameObject;
             m_SelectedInteractable.transform.parent = gameObject.transform;
 
-            m_SelectedInteractable.transform.localPosition = Vector3.zero +
-                m_SelectedInteractable.m_PickUpOffsetPOS;
+            //m_SelectedInteractable.transform.localPosition = Vector3.zero +
+            //    m_SelectedInteractable.m_PickUpOffsetPOS;
             
-            m_SelectedInteractable.transform.localEulerAngles = Vector3.zero +
-                m_SelectedInteractable.m_PickUpOffsetROT;
+            //m_SelectedInteractable.transform.localEulerAngles = Vector3.zero +
+            //    m_SelectedInteractable.m_PickUpOffsetROT;
 
         }
         return 0;
@@ -199,6 +210,7 @@ public class ViveHand : MonoBehaviour
 
             m_SelectedObject.transform.parent = null;
             m_SelectedObject = null;
+            m_ObjectInHand = null;
         }
 
         return 0;

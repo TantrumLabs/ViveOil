@@ -5,10 +5,10 @@ public class ExtinguisherDisposal : MonoBehaviour
 {
     void OnTriggerStay(Collider other)
     {
-        IInteractableObject i = other.GetComponent<IInteractableObject>();
-        if (i != null)
+        Interactable i = other.GetComponent<Interactable>();
+        if (i != null && i.transform.parent == null)
         {
-            i.Interact();
+            Destroy(i.gameObject);
         }
     }
 }

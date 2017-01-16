@@ -80,7 +80,7 @@ public class MyTeleport : MonoBehaviour
                         line.SetPosition(0, hand.gameObject.transform.position);
                         line.SetPosition(1, hit.point);
                         line.enabled = true;
-                        //Debug.DrawLine(teleportingHand.gameObject.transform.position, hit.point, Color.red);
+                        Debug.DrawLine(teleportingHand.gameObject.transform.position, hit.point, Color.red);
                         havePos = true;
                     }
                     else
