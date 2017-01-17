@@ -41,11 +41,11 @@ public class FireExtinguisher : MonoBehaviour
     {
         //device = SteamVR_Controller.Input((int)trackedObject.index);
 
-        //if (m_CurrentSpray <= 0)
-        //{
-        //    SprayNozzle.enabled = false;
-        //    SetSpray(false);
-        //}
+        if (m_CurrentSpray <= 0)
+        {
+            SprayNozzle.enabled = false;
+            SetSpray(false);
+        }
 
         if (m_spraying)
             Spray();
@@ -62,15 +62,17 @@ public class FireExtinguisher : MonoBehaviour
     public void SetSpray(bool active)
     {
         m_spraying = active;
-
-        if (m_CurrentSpray <= 0)
-            return;
+        SprayNozzle.enabled = active;
 
         if(!active)
         {
             SprayFoam.Stop();
             playAudio = false;
         }
+
+        if (m_CurrentSpray <= 0)
+            return;
+
         
     }
 
