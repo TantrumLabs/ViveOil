@@ -99,20 +99,26 @@ public class FireManager : MonoBehaviour
 
     private int CheckForWin()
     {
+        bool canWin = true;
+
         foreach (Fire f in m_Fires)
         {
             if (f.m_IsLit)
             {
+                canWin = false;
                 if(f.transform.localScale.magnitude > f.m_MaxSize * 2f)
                 {
                     Lose();
                 }
-
-                return 1;
+            }
+            else
+            {
+                f.gameObject.SetActive(false);
             }
         }
         
-        Win();
+        if(canWin)
+            Win();
         return 0;
     }
 
