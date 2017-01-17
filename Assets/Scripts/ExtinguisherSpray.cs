@@ -52,7 +52,7 @@ public class ExtinguisherSpray : MonoBehaviour
 
         if (F != null)
         {
-            if (Mathf.Abs(transform.position.y - F.transform.position.y) < 0.25)
+            if (Mathf.Abs(transform.position.y - F.transform.position.y) < 1.0f)
             {
                 Vector3 fireScale = other.gameObject.transform.localScale;
 

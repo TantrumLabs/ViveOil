@@ -83,7 +83,8 @@ public class ViveHand : MonoBehaviour
     {
         get
         {
-            return m_SelectedObject.GetComponent<Interactable>();
+            Interactable i = m_SelectedObject.GetComponent<Interactable>();
+            return i != null ? i : null;
         }
     }
 
@@ -170,9 +171,10 @@ public class ViveHand : MonoBehaviour
             m_SelectedInteractable.m_OffTouch.Invoke();
             HapticPulse();
         }
-        //if (other.GetComponent<Interactable>() != null)
-        //{
-        //}
+        if (other.GetComponent<Interactable>() != null)
+        {
+            other.GetComponent<Interactable>().m_OffTouch.Invoke();
+        }
     }
 
     void HapticPulse()
