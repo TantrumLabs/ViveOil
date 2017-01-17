@@ -3,6 +3,9 @@ using System.Collections;
 
 public class HeatMiniGame : MonoBehaviour
 {
+    [System.Serializable]
+    public struct TempRange { public int min, max; }
+
     private Animation m_anim;
 
     private bool m_tempClimb = true;
@@ -20,7 +23,10 @@ public class HeatMiniGame : MonoBehaviour
     float m_currentTemp = 0;
 
     [SerializeField]
-    Vector2 GoalRange;
+    TempRange m_GoalRange;
+
+    [SerializeField]
+    Light m_alarmLight;
 
     void Start()
     {
@@ -59,6 +65,13 @@ public class HeatMiniGame : MonoBehaviour
 
         float t = (m_currentTemp - m_minTemp) / (m_maxTemp - m_minTemp);
         SeekNeedleAnimation(t);
+
+
+        if ((m_currentTemp < m_GoalRange.min || m_currentTemp > m_GoalRange.max) && !m_alarmLight.enabled)
+        {
+            StartCoroutine(LightBlink());
+            print("Hit");
+        }
     }
 
     void SeekNeedleAnimation(float seekpoint)
@@ -74,5 +87,37 @@ public class HeatMiniGame : MonoBehaviour
     void CoolOff(float coolMod)
     {
         m_currentTemp -= Time.deltaTime * (6 * coolMod);
+    }
+
+    IEnumerator LightBlink()
+    {
+        m_alarmLight.enabled = true;
+        float lightIntesity = m_alarmLight.intensity;
+        bool grow = true;
+
+        while ( m_currentTemp < m_GoalRange.min || m_currentTemp > m_GoalRange.max)
+        {
+            print((m_currentTemp < m_GoalRange.min || m_currentTemp > m_GoalRange.max).ToString()); /////
+
+            if (grow)
+            {
+                if (m_alarmLight.intensity < lightIntesity)
+                    m_alarmLight.intensity += Time.deltaTime * 3;
+                else
+                    grow = false;
+            }
+            else
+            {
+                if (m_alarmLight.intensity > 0)
+                    m_alarmLight.intensity -= Time.deltaTime * 3;
+                else
+                    grow = true;
+            }
+
+            yield return null;
+        }
+
+        m_alarmLight.intensity = lightIntesity;
+        m_alarmLight.enabled = false;
     }
 }
