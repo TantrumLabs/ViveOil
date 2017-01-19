@@ -4,8 +4,6 @@ using System.Collections;
 
 public class Lever : MonoBehaviour
 {
-    public Text text;
-
     [SerializeField]
     float m_min = 0;
 
@@ -18,7 +16,6 @@ public class Lever : MonoBehaviour
     {
         float current = ( 360 / Mathf.PI) * gameObject.transform.localRotation.x;
         percent = (current - m_min) / (m_max - m_min);
-        text.text = percent.ToString();
     }
 
     public float CurrentPercent()

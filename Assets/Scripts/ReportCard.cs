@@ -72,10 +72,14 @@ public class ReportCard : MonoBehaviour
 
         foreach(ScoreElement se in m_scores )
         {
-            GameObject g = Instantiate<GameObject>(m_scoreCardPrefab);
-            g.transform.SetParent(gameObject.transform);
+            GameObject g = Instantiate(m_scoreCardPrefab, gameObject.transform) as GameObject;
             g.GetComponent<ScoreCard>().LoadScoreCard(se);
-            g.GetComponent<RectTransform>().anchoredPosition = new Vector3(0,t,0);
+            g.GetComponent<RectTransform>().localScale = new Vector3(1,1,1);
+            g.GetComponent<RectTransform>().anchorMin = new Vector2(0.5f, 1);
+            g.GetComponent<RectTransform>().anchorMax = new Vector2(0.5f, 1);
+            g.GetComponent<RectTransform>().localPosition = new Vector3(0, t, 0);
+            g.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, t, 0);
+            g.GetComponent<RectTransform>().localRotation = new Quaternion(0,0,0,0);
 
             totalScored += se.m_actualScore;
             totalPossible += se.m_possibleScore;
@@ -91,8 +95,9 @@ public class ReportCard : MonoBehaviour
         GameObject g2 = Instantiate<GameObject>(m_scoreCardPrefab);
         g2.transform.SetParent(gameObject.transform);
         g2.GetComponent<ScoreCard>().LoadScoreCard(total);
+        g2.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
+        g2.GetComponent<RectTransform>().localPosition = new Vector3(0, t, 0);
         g2.GetComponent<RectTransform>().anchoredPosition = new Vector3(0, t, 0);
-
-
+        g2.GetComponent<RectTransform>().localRotation = new Quaternion(0, 0, 0, 0);
     }
 }

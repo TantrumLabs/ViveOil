@@ -70,7 +70,6 @@ public class HeatMiniGame : MonoBehaviour
         if ((m_currentTemp < m_GoalRange.min || m_currentTemp > m_GoalRange.max) && !m_alarmLight.enabled)
         {
             StartCoroutine(LightBlink());
-            print("Hit");
         }
     }
 
@@ -97,8 +96,6 @@ public class HeatMiniGame : MonoBehaviour
 
         while ( m_currentTemp < m_GoalRange.min || m_currentTemp > m_GoalRange.max)
         {
-            print((m_currentTemp < m_GoalRange.min || m_currentTemp > m_GoalRange.max).ToString()); /////
-
             if (grow)
             {
                 if (m_alarmLight.intensity < lightIntesity)
