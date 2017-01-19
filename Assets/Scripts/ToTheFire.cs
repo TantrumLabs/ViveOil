@@ -6,14 +6,15 @@ public class ToTheFire : MonoBehaviour
     [SerializeField] GameObject viveRig;
     [SerializeField] GameObject viveBox;
     [SerializeField] Vector3 firePos;
-    [SerializeField] TextWindow tw;
+    public GameObject m_headlight;
 
     void OnTriggerEnter(Collider other)
     {
         if(other.gameObject == viveBox)
         {
             viveRig.transform.position = firePos;
-            tw.PushText("There seems to be an electrical fire up ahead. ");
+            m_headlight.SetActive(true);
+            GameObject.Destroy(gameObject);
         }
     }
 
