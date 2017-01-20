@@ -17,7 +17,7 @@ public class PullFireAlarm : Interactable
         {
             m_pulled = true;
             m_ScoreElement.SetScore(10);
-
+            GetComponent<Animation>().Play();
         }
         
     }
