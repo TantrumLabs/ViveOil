@@ -20,7 +20,7 @@ public class ScoreElement : MonoBehaviour
     /// <summary>
     /// If the player score is below
     /// </summary>
-    public bool m_needsFeedback = false;
+    public bool m_needsFeedback = true;
 
     /// <summary>
     /// Number of points scored
@@ -55,12 +55,15 @@ public class ScoreElement : MonoBehaviour
     public void SetScore(int a_score)
     {
         m_actualScore = (a_score > m_possibleScore) ? m_possibleScore : a_score;    // Clamps score so it can't exceed m_possibleScore
-        m_needsFeedback = ((m_actualScore/m_possibleScore) > (m_passPercent/100));  // If score/max does not exceed passPercent set m_needsFeedback
+
+        m_needsFeedback = ((float)((float)m_actualScore / (float)m_possibleScore) < ((float)m_passPercent /100f));  // If score/max does not exceed passPercent set m_needsFeedback
+
+        print(m_actualScore + " " + m_possibleScore + " " + m_passPercent + " " + m_needsFeedback);
     }
 
-    string Feedback()
+    public string Feedback()
     {
-        return (m_needsFeedback) ? m_feedbackMessage + "\n\n" : "\n\n";
+        return (m_needsFeedback) ? m_feedbackMessage  : "";
     }
 
     public string ScoreString()

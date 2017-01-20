@@ -25,6 +25,7 @@ public class ReportCard : MonoBehaviour
 
     void Start()
     {
+        GatherScores();
         StartCoroutine(PrintScoreCards());
     }
 
@@ -92,7 +93,7 @@ public class ReportCard : MonoBehaviour
 
         ScoreElement total = new ScoreElement("Total", totalPossible, "Let's do better next time.", 60);
         total.SetScore(totalScored);
-        GameObject g2 = Instantiate<GameObject>(m_scoreCardPrefab);
+        GameObject g2 = Instantiate(m_scoreCardPrefab, gameObject.transform) as GameObject;
         g2.transform.SetParent(gameObject.transform);
         g2.GetComponent<ScoreCard>().LoadScoreCard(total);
         g2.GetComponent<RectTransform>().localScale = new Vector3(1, 1, 1);
