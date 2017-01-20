@@ -125,7 +125,8 @@ public class FireManager : MonoBehaviour
     private void Win()
     {
         m_InProgress = false;
-        m_TextWindow.PushText(m_WinMessage);
+        if(m_TextWindow != null)
+            m_TextWindow.PushText(m_WinMessage);
         foreach (GameObject g in m_WinButtons)
         {
             g.SetActive(true);

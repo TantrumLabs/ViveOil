@@ -167,8 +167,8 @@ public class ViveHand : MonoBehaviour
     {
         if (other.gameObject == m_SelectedObject)
         {
-            m_SelectedObject = null;
             m_SelectedInteractable.m_OffTouch.Invoke();
+            m_SelectedObject = null;
             HapticPulse();
         }
         if (other.GetComponent<Interactable>() != null)
