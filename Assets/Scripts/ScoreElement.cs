@@ -58,7 +58,7 @@ public class ScoreElement : MonoBehaviour
 
         m_needsFeedback = ((float)((float)m_actualScore / (float)m_possibleScore) < ((float)m_passPercent /100f));  // If score/max does not exceed passPercent set m_needsFeedback
 
-        print(m_actualScore + " " + m_possibleScore + " " + m_passPercent + " " + m_needsFeedback);
+        //print(m_actualScore + " " + m_possibleScore + " " + m_passPercent + " " + m_needsFeedback);
     }
 
     public string Feedback()

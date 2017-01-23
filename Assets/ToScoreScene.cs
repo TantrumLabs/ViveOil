@@ -15,7 +15,7 @@ public class ToScoreScene : MonoBehaviour
 
             foreach(var i in v)
             {
-                print(i);
+                i.transform.parent = null;
                 DontDestroyOnLoad(i.gameObject);
             }
 
