@@ -70,7 +70,7 @@ public class MyTeleport : MonoBehaviour
             RaycastHit hit;
             //Ray ray = new Ray(teleportingHand.gameObject.transform.position, teleportingHand.gameObject.transform.forward, 100);
 
-            if (Physics.Raycast(hand.gameObject.transform.position, -hand.transform.up, out hit, 5))
+            if (Physics.Raycast(hand.gameObject.transform.position, hand.transform.forward, out hit, 5))
             {
                 if (hit.collider != null)
                 {

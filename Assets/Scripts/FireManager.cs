@@ -82,6 +82,9 @@ public class FireManager : MonoBehaviour
     [SerializeField] private string m_LoseMessage;
     [SerializeField] private string m_WinMessage;
 
+    [SerializeField] ScoreOverTime m_scoreOT = null;
+    
+
     void Awake()
     {
         Fire[] fireChildren = GetComponentsInChildren<Fire>();
@@ -131,12 +134,19 @@ public class FireManager : MonoBehaviour
         {
             g.SetActive(true);
         }
+
+        if(m_scoreOT != null)
+        {
+            m_scoreOT.StopTimer();
+        }
+
     }
 
     public void Lose()
     {
         m_CameraRig.transform.position = m_ResetPos;
         ResetFires();
+        m_scoreOT.ReduceScore(5);
         m_TextWindow.PushText(m_LoseMessage);
     }
 

@@ -15,4 +15,22 @@ public class Interactable : MonoBehaviour
 
     public UnityEngine.Events.UnityEvent m_OnInteraction;
     public UnityEngine.Events.UnityEvent m_OffInteraction;
+
+    [SerializeField]
+    private float m_ResetDelay;
+    private float m_ResetTimer = 0;
+    private void FixedUpdate()
+    {
+        if (m_IsPickUp)
+        {
+            if (transform.parent == null)
+            {
+                m_ResetTimer += Time.deltaTime;
+                if (m_ResetTimer >= m_ResetDelay)
+                {
+                    Destroy(gameObject);
+                }
+            }
+        }
+    } 
 }

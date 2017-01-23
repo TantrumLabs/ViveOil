@@ -91,7 +91,7 @@ public class ReportCard : MonoBehaviour
 
         t -= 20;
 
-        ScoreElement total = new ScoreElement("Total", totalPossible, "Let's do better next time.", 60);
+        ScoreElement total = new ScoreElement("Total", totalPossible, "Let's do better next time.", 90);
         total.SetScore(totalScored);
         GameObject g2 = Instantiate(m_scoreCardPrefab, gameObject.transform) as GameObject;
         g2.transform.SetParent(gameObject.transform);
