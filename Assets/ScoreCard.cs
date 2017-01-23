@@ -22,7 +22,7 @@ public class ScoreCard : MonoBehaviour
         m_scoreName.text    = se.m_name;
         m_score.text        = se.m_actualScore.ToString();
         m_maxScore.text     = se.m_possibleScore.ToString();
-        m_feebBack.text     = se.m_feedbackMessage;
+        m_feebBack.text     = se.Feedback();
     } 
 
 }

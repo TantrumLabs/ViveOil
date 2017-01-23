@@ -11,6 +11,14 @@ public class ToScoreScene : MonoBehaviour
     {
         if (other.gameObject == m_viveBox)
         {
+            var v = GameObject.FindObjectsOfType<ScoreElement>();
+
+            foreach(var i in v)
+            {
+                print(i);
+                DontDestroyOnLoad(i.gameObject);
+            }
+
             SceneManager.LoadScene(m_sceneName);
         }
     }

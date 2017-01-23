@@ -76,16 +76,19 @@ public class HeatMiniGame : MonoBehaviour
     void SeekNeedleAnimation(float seekpoint)
     {
         m_anim["NeedleTurn"].normalizedTime = seekpoint;
+        m_anim.Play();
     }
 
     void HeatUp(float hotMod)
     {
-        m_currentTemp += Time.deltaTime * (6 * hotMod);
+        if (m_currentTemp < m_maxTemp)
+            m_currentTemp += Time.deltaTime * (6 * hotMod);
     }
 
     void CoolOff(float coolMod)
     {
-        m_currentTemp -= Time.deltaTime * (6 * coolMod);
+        if(m_currentTemp > 0)
+            m_currentTemp -= Time.deltaTime * (6 * coolMod);
     }
 
     IEnumerator LightBlink()
