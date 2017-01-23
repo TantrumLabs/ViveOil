@@ -14,10 +14,9 @@ public class ExtinguisherSpray : MonoBehaviour
     [SerializeField] ExtinguisherType type;
 
     [SerializeField]private bool m_shake;
-    private float m_lastYRotation = 0;
+    private Vector3 m_lastYRotation;
 
-    //Test
-    [Range(0, 1)]
+    
     [SerializeField]float shakeBreak = 0.5f;
 
     void Start()
@@ -29,12 +28,12 @@ public class ExtinguisherSpray : MonoBehaviour
     {
         while(true)
         {
-            float currentYRotation = gameObject.transform.rotation.y;
+            float currentYRotation = Vector3.Distance(gameObject.transform.eulerAngles, m_lastYRotation);
 
-            m_shake = (Mathf.Abs(currentYRotation - m_lastYRotation) > shakeBreak);
-            m_lastYRotation = currentYRotation;
+            m_shake = (Mathf.Abs(currentYRotation) > shakeBreak);
+            m_lastYRotation = transform.eulerAngles;
 
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(0.1f);
         }
     }
 

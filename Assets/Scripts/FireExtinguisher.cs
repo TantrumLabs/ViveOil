@@ -15,8 +15,8 @@ public class FireExtinguisher : MonoBehaviour
     SteamVR_TrackedObject trackedObject;
     SteamVR_Controller.Device device;
 
-    [SerializeField] float m_MaxSpray = 0;
-    private float m_CurrentSpray = 0;
+    public float m_MaxSpray = 0;
+    public float m_CurrentSpray = 0;
 
     bool m_spraying = false;
 

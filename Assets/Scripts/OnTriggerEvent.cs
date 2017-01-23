@@ -4,6 +4,7 @@ using System.Collections;
 
 public class OnTriggerEvent : MonoBehaviour
 {
+    public string m_Tag = "";
     public UnityEngine.Events.UnityEvent m_Event;
 	void Start ()
     {
@@ -12,6 +13,10 @@ public class OnTriggerEvent : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        if (m_Tag != "")
+            if (!other.CompareTag(m_Tag))
+                return;
+
         m_Event.Invoke();
     }
 }
