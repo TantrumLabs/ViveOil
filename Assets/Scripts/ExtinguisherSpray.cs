@@ -59,7 +59,7 @@ public class ExtinguisherSpray : MonoBehaviour
                 switch (F.m_FireType)
                 {
                     case eFireType.WOOD:
-                        other.gameObject.transform.localScale -= ((fireScale * Time.deltaTime) * 5);
+                        other.gameObject.transform.localScale -= ((fireScale * Time.deltaTime) * 0.8f);
                         break;
 
                     case eFireType.ELECTRICAL:
